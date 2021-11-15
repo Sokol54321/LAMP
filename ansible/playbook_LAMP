@@ -1,0 +1,30 @@
+
+---
+- name: LAMP
+  hosts: all
+  become: yes
+ 
+  tasks:
+  - name: Update repository
+    shell: 'apt update'
+
+  - name: Install Apache2 
+    apt: name=apache2 state=latest
+ 
+  - name: Start service Apache2
+    service: name=apache2 state=started enabled=yes
+    
+  - name: Install MySQL
+    apt: name=mysql-server state=latest
+ 
+  - name: Install PHP
+    apt: name={{ item }} state=latest
+    loop: ['php7.4', 'libapache2-mod-php7.4', 'php7.4-mysql']
+
+  - name: conf php
+    shell: 'echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php ; rm /var/www/html/index.html'
+    notify: Restart Apache2
+      
+  handlers: 
+  - name: Restart Apache2
+    service: name=apache2 state=restarted
