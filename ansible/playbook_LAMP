@@ -5,6 +5,10 @@
   become: yes
  
   tasks:
+  
+  -name: test
+    shell: 'pwd'
+    
   - name: Update repository
     shell: 'apt update'
 
