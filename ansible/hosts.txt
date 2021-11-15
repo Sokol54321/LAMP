@@ -1,4 +1,4 @@
 
 [client_servers]
-linux ansible_host=178.62.39.251
+linux ansible_host=134.122.110.36
  
